@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>活動精彩回顧 | SWAG</title>
-    <!-- 引入字體 -->
+    <title>線下活動回顧 | SWAG</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -14,328 +13,152 @@
             --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.12);
             --text-main: #ffffff;
-            --text-dim: rgba(255, 255, 255, 0.7);
+            --text-dim: rgba(255, 255, 255, 0.6);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
+        body { background-color: var(--bg-deep); color: var(--text-main); overflow-x: hidden; scroll-behavior: smooth; }
 
-        body {
-            background-color: var(--bg-deep);
-            color: var(--text-main);
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+        /* 背景：深海發光特效 */
+        .ocean-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 20%, #0a242d 0%, #02080a 70%); z-index: -2; }
+        .mist { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.1; pointer-events: none; z-index: -1; }
+        .bioluminescence { position: fixed; width: 600px; height: 600px; background: var(--primary); filter: blur(200px); border-radius: 50%; opacity: 0.08; animation: drift 20s infinite alternate; z-index: -1; }
+        @keyframes drift { from { transform: translate(-15%, -15%); } to { transform: translate(25%, 35%); } }
+
+        /* Hero */
+        .hero { height: 45vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero-title { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 900; background: linear-gradient(to bottom, #fff 40%, var(--primary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-sub { letter-spacing: 6px; color: var(--primary); font-size: 0.9rem; font-weight: bold; margin-top: 10px; }
+
+        .section-wrapper { max-width: 1000px; margin: 0 auto; padding: 0 20px 100px; }
+
+        /* 亮點數據 */
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 800px; margin: 40px auto 80px; text-align: center; }
+        .stat-num { font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: 900; color: var(--primary); display: block; }
+        .stat-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; margin-top: 5px; }
+
+        /* 時間軸 */
+        .timeline { max-width: 700px; margin: 0 auto 120px; padding: 0 20px; }
+        .timeline-item { position: relative; padding-left: 30px; border-left: 1px solid var(--glass-border); margin-bottom: 40px; opacity: 0.2; transition: 1s; }
+        .timeline-item.visible { opacity: 1; }
+        .timeline-item::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--primary); box-shadow: 0 0 10px var(--primary); }
+        .timeline-date { font-weight: 900; color: var(--primary); font-size: 1.1rem; }
+        .timeline-content { color: var(--text-dim); font-size: 0.95rem; line-height: 1.5; }
+
+        .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--glass-border), transparent); margin: 80px 0; }
+
+        /* 文案卡片 (間距已優化) */
+        .intro-card {
+            background: var(--glass); backdrop-filter: blur(25px); border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 45px; margin-bottom: 60px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); text-align: left;
         }
+        .intro-card h2 { color: var(--primary); font-size: 1.9rem; margin-bottom: 12px; font-weight: 900; }
+        .intro-card h3 { font-size: 1.1rem; color: #fff; margin-bottom: 25px; font-style: italic; opacity: 0.9; }
+        .intro-card p { font-size: 0.95rem; color: var(--text-dim); line-height: 1.9; margin-bottom: 25px; }
 
-        /* --- 背景特效：水底觀察感 & 生物發光 --- */
-        .ocean-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 20%, #0a242d 0%, #02080a 70%);
-            z-index: -2;
-        }
+        /* 照片與影片網格 (核心：手機 3 欄) */
+        .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 140px; }
+        .gallery-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 10px; overflow: hidden; aspect-ratio: 1; transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .gallery-item img, .gallery-item video { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; display: block; }
+        .gallery-item:hover { transform: scale(1.05); border-color: var(--primary); box-shadow: 0 0 20px var(--primary-glow); }
 
-        /* 模擬水底雜訊與霧氣 */
-        .mist-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png'); /* 微弱顆粒感 */
-            opacity: 0.15;
-            pointer-events: none;
-            z-index: -1;
-        }
+        footer { padding: 80px 20px; text-align: center; color: var(--text-dim); font-size: 11px; border-top: 1px solid var(--glass-border); letter-spacing: 1px; }
 
-        .bioluminescence {
-            position: fixed;
-            width: 400px; height: 400px;
-            background: var(--primary);
-            filter: blur(150px);
-            border-radius: 50%;
-            opacity: 0.1;
-            animation: drift 15s infinite alternate;
-            z-index: -1;
-        }
-
-        @keyframes drift {
-            from { transform: translate(-10%, -10%); }
-            to { transform: translate(20%, 30%); }
-        }
-
-        /* --- 頂部 Banner (Hero Section) --- */
-        .hero {
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-            perspective: 1000px;
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 10vw, 6rem);
-            font-weight: 900;
-            background: linear-gradient(to bottom, #fff 30%, var(--primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            will-change: transform;
-        }
-
-        /* --- 資格檢查 (Glassmorphism Card) --- */
-        .check-card {
-            background: var(--glass);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            padding: 40px;
-            width: 90%; max-width: 500px;
-            margin: -100px auto 100px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 20px var(--primary-glow);
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .rule-text { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 20px; }
-
-        .btn-neon {
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 0 10px var(--primary-glow);
-        }
-
-        .btn-neon:hover { background: var(--primary); color: #000; box-shadow: 0 0 30px var(--primary); }
-
-        /* --- 亮點數據 (Statistics) --- */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            max-width: 1000px;
-            margin: 0 auto 100px;
-            padding: 0 20px;
-        }
-
-        .stat-item {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .stat-num { font-size: 2.5rem; font-weight: 900; color: var(--primary); display: block; }
-        .stat-label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; }
-
-        /* --- 時空隧道 (Timeline) --- */
-        .timeline {
-            max-width: 800px;
-            margin: 0 auto 100px;
-            position: relative;
-            padding: 40px 0;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%; width: 2px; height: 100%;
-            background: linear-gradient(transparent, var(--primary), transparent);
-        }
-
-        .timeline-item {
-            width: 45%;
-            margin-bottom: 60px;
-            position: relative;
-            opacity: 0.3;
-            transform: translateY(50px);
-            transition: 0.8s;
-        }
-
-        .timeline-item.visible { opacity: 1; transform: translateY(0); }
-        .timeline-item:nth-child(even) { margin-left: auto; text-align: left; }
-        .timeline-item:nth-child(odd) { text-align: right; }
-
-        /* --- 精彩瞬間 (Gallery) --- */
-        .gallery {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 40px 20px;
-        }
-
-        .gallery-item {
-            border-radius: 20px;
-            overflow: hidden;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            aspect-ratio: 1;
-            position: relative;
-            cursor: pointer;
-            transition: 0.5s;
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.02);
-            border-color: var(--primary);
-            box-shadow: 0 0 25px var(--primary-glow);
-        }
-
-        .gallery-item video, .gallery-item img {
-            width: 100%; height: 100%; object-fit: cover; opacity: 0.8;
-        }
-
-        /* --- 多語系 & 頁尾 --- */
-        .lang-nav {
-            position: fixed; top: 20px; right: 20px; z-index: 100;
-        }
-
-        .lang-btn {
-            background: var(--glass); border: 1px solid var(--glass-border);
-            color: #fff; padding: 5px 12px; border-radius: 10px; cursor: pointer; margin-left: 5px;
-        }
-
-        footer {
-            padding: 80px 20px; text-align: center; border-top: 1px solid var(--glass-border);
-            color: var(--text-dim); font-size: 12px;
-        }
-
-        /* --- 響應式 --- */
-        @media (max-width: 768px) {
-            .stats-grid { grid-template-columns: 1fr; }
-            .timeline::before { left: 20px; }
-            .timeline-item { width: 80%; margin-left: 40px !important; text-align: left !important; }
+        @media (max-width: 600px) {
+            .hero { height: 40vh; }
+            .gallery { gap: 4px; padding: 0; margin-bottom: 80px; }
+            .gallery-item { border-radius: 4px; }
+            .intro-card { padding: 30px 20px; margin-bottom: 40px; border-radius: 16px; }
         }
     </style>
 </head>
 <body>
 
     <div class="ocean-bg"></div>
-    <div class="mist-overlay"></div>
+    <div class="mist"></div>
     <div class="bioluminescence"></div>
 
-    <div class="lang-nav">
-        <button class="lang-btn" onclick="setLang('zh-TW')">繁</button>
-        <button class="lang-btn" onclick="setLang('en')">EN</button>
-        <button class="lang-btn" onclick="setLang('ja')">JP</button>
-    </div>
-
     <section class="hero">
-        <h1 class="hero-title" id="parallax-title">Activity<br>Highlights</h1>
-        <p style="margin-top:20px; letter-spacing: 5px; color: var(--primary);">2025 RECAP SESSION</p>
+        <h1 class="hero-title">線下活動回顧</h1>
+        <p class="hero-sub">OFFLINE EVENTS</p>
     </section>
 
-    <div class="check-card">
-        <div id="ui-rule" class="rule-text">LV 1 以上即可參加</div>
-        <h2 id="ui-check-status" style="margin-bottom:20px;">身份確認</h2>
-        <button class="btn-neon" onclick="mockVerify()" id="ui-btn">立即檢查</button>
-        <div id="verify-result" style="margin-top:20px; font-weight: bold;"></div>
-    </div>
-
-    <div class="stats-grid">
-        <div class="stat-item">
-            <span class="stat-num">5.2k</span>
-            <span class="stat-label">參與人數</span>
+    <div class="section-wrapper">
+        
+        <!-- 亮點數據 -->
+        <div class="stats">
+            <div class="stat-item"><span class="stat-num">15+</span><span class="stat-label">活動場次</span></div>
+            <div class="stat-item"><span class="stat-num">8.5k</span><span class="stat-label">參與人次</span></div>
+            <div class="stat-item"><span class="stat-num">VIP</span><span class="stat-label">尊榮專屬</span></div>
         </div>
-        <div class="stat-item">
-            <span class="stat-num">120+</span>
-            <span class="stat-label">精彩場次</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-num">850h</span>
-            <span class="stat-label">直播時數</span>
-        </div>
-    </div>
 
-    <div class="timeline" id="timeline">
-        <div class="timeline-item"><h3>JAN 2025</h3><p>活動企劃啟動</p></div>
-        <div class="timeline-item"><h3>FEB 2025</h3><p>全球海選開跑</p></div>
-        <div class="timeline-item"><h3>MAR 2025</h3><p>最終決賽盛況</p></div>
-    </div>
+        <!-- 時間軸 (OCT 2024 - JAN 2026) -->
+        <div class="timeline">
+            <div class="timeline-item"><div class="timeline-date">OCT 2024</div><div class="timeline-content">首場線下活動</div></div>
+            <div class="timeline-item"><div class="timeline-date">MAR 2025</div><div class="timeline-content">反響熱烈<br>舉辦首場VIP同樂會</div></div>
+            <div class="timeline-item"><div class="timeline-date">SEP 2025</div><div class="timeline-content">直播線下賽</div></div>
+            <div class="timeline-item"><div class="timeline-date">JAN 2026</div><div class="timeline-content">活動持續擴大至VIP LV1即可參與</div></div>
+        </div>
 
-    <div class="gallery" id="gallery">
-        <!-- JS 動態生成 -->
+        <div class="divider"></div>
+
+        <!-- 線下同樂會段落 -->
+        <div class="intro-card">
+            <h2>線下同樂會｜LV1 即可參與</h2>
+            <h3>「每一次支持，都是與她相遇的起點。」</h3>
+            <p>我們打破螢幕的界限，為所有等級的夥伴開啟專屬互動大門！無論你是剛加入的新朋友，還是默默守護的資深粉絲，都有機會在現場與心儀主播面對面，感受最真實的溫度。</p>
+        </div>
+        
+        <div class="gallery">
+            <!-- 1. 影片連結 (CDN) -->
+            <div class="gallery-item">
+                <video src="https://public.swag.live/campaigns/vip-offline-event/VIP%20%E5%90%8C%E6%A8%82%E6%9C%83%20(%E7%AB%99%E5%85%A7).mp4" 
+                       autoplay muted loop playsinline preload="auto"></video>
+            </div>
+
+            <!-- 2. 之前的第一張截圖 -->
+            <div class="gallery-item">
+                <img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%AD%E5%8D%8812.35.56.png" loading="lazy">
+            </div>
+
+            <!-- 3. 您剛提供的 18 張照片 (按順序排列) -->
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%AD%E5%8D%8812.37.53.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.30.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.39.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.52.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.04.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.13.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.34.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.43.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.47.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.06.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.18.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.27.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.36.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.44.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.56.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.41.14.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.09.png" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.19.png" loading="lazy"></div>
+        </div>
+
     </div>
 
     <footer>
-        <p id="ui-footer">本公司保留最終解釋權 © 2025 SWAG</p>
+        © 2026 SWAG. 本公司保留最終解釋權
     </footer>
 
     <script>
-        // 1. 多語系配置
-        const i18n = {
-            'zh-TW': { rule: 'LV 1 以上即可參加', btn: '立即檢查', checking: '驗證中...', success: '驗證成功 ✨', footer: '本公司保留最終解釋權 © 2025 SWAG' },
-            'en': { rule: 'Required LV 1+', btn: 'Verify Now', checking: 'Verifying...', success: 'Verified ✨', footer: 'All Rights Reserved © 2025 SWAG' },
-            'ja': { rule: 'LV 1 以上が必要', btn: '確認する', checking: '確認中...', success: '認証済み ✨', footer: '最終的な解釈権は当社に帰属します © 2025 SWAG' }
-        };
-
-        function setLang(lang) {
-            document.getElementById('ui-rule').innerText = i18n[lang].rule;
-            document.getElementById('ui-btn').innerText = i18n[lang].btn;
-            document.getElementById('ui-footer').innerText = i18n[lang].footer;
-        }
-
-        // 2. Parallax 視差效果 (標題)
+        // 捲動觸發動畫
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
-            const title = document.getElementById('parallax-title');
-            title.style.transform = `translateY(${scrolled * 0.4}px) rotateX(${scrolled * 0.05}deg)`;
-            
-            // Timeline 出現效果
+            document.querySelector('.hero-title').style.transform = `translateY(${scrolled * 0.3}px)`;
+
             document.querySelectorAll('.timeline-item').forEach(item => {
                 const rect = item.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.8) item.classList.add('visible');
+                if (rect.top < window.innerHeight * 0.85) item.classList.add('visible');
             });
-        });
-
-        // 3. Mock API 驗證邏輯
-        function mockVerify() {
-            const btn = document.getElementById('ui-btn');
-            const result = document.getElementById('verify-result');
-            btn.disabled = true;
-            btn.innerText = 'CHECKING...';
-            
-            setTimeout(() => {
-                const isQualified = Math.random() > 0.3; // 模擬結果
-                btn.disabled = false;
-                btn.innerText = 'CHECK AGAIN';
-                if(isQualified) {
-                    result.innerText = 'QUALIFIED: LV 3';
-                    result.style.color = 'var(--primary)';
-                } else {
-                    result.innerText = 'NOT QUALIFIED';
-                    result.style.color = '#ff4d4d';
-                }
-            }, 1500);
-        }
-
-        // 4. 動態生成 Gallery (影音混排預覽)
-        const galleryItems = [
-            { type: 'image', url: 'https://picsum.photos/600/600?random=1' },
-            { type: 'video', url: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-            { type: 'image', url: 'https://picsum.photos/600/600?random=2' },
-            { type: 'video', url: 'https://www.w3schools.com/html/movie.mp4' },
-            { type: 'image', url: 'https://picsum.photos/600/600?random=3' },
-            { type: 'image', url: 'https://picsum.photos/600/600?random=4' }
-        ];
-
-        const galleryContainer = document.getElementById('gallery');
-        galleryItems.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'gallery-item';
-            if(item.type === 'video') {
-                div.innerHTML = `<video src="${item.url}" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()"></video>`;
-            } else {
-                div.innerHTML = `<img src="${item.url}" loading="lazy">`;
-            }
-            galleryContainer.appendChild(div);
         });
     </script>
 </body>
