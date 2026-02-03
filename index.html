@@ -24,9 +24,9 @@
         .bioluminescence { position: fixed; width: 600px; height: 600px; background: var(--primary); filter: blur(200px); border-radius: 50%; opacity: 0.08; animation: drift 20s infinite alternate; z-index: -1; }
         @keyframes drift { from { transform: translate(-15%, -15%); } to { transform: translate(25%, 35%); } }
 
-        /* --- Section 0: 首頁大標題區 --- */
+        /* 頁首標題區 */
         .hero-header {
-            height: 45vh;
+            height: 40vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -35,19 +35,18 @@
             padding: 0 20px;
         }
         .main-title {
-            font-size: clamp(2.5rem, 8vw, 4.2rem);
+            font-size: clamp(2.5rem, 8vw, 4rem);
             font-weight: 900;
             background: linear-gradient(to bottom, #fff 40%, var(--primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            letter-spacing: -1px;
+            margin-bottom: 5px;
         }
         .sub-title { letter-spacing: 8px; color: var(--primary); font-size: 0.85rem; font-weight: bold; opacity: 0.8; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 100px; }
 
-        /* --- Section 1: 核心影音區塊 --- */
+        /* 核心影音轉化區 */
         .feature-block {
             display: flex;
             align-items: center;
@@ -60,7 +59,6 @@
             box-shadow: 0 40px 100px rgba(0,0,0,0.5);
         }
 
-        /* 左側文案 */
         .content-side {
             flex: 1;
             padding: 60px;
@@ -68,43 +66,13 @@
             background: linear-gradient(90deg, rgba(2, 8, 10, 0.8) 0%, transparent 100%);
         }
 
-        .tagline {
-            color: var(--primary);
-            font-size: 0.8rem;
-            font-weight: 800;
-            letter-spacing: 3px;
-            margin-bottom: 15px;
-            display: block;
-        }
+        .tagline { color: var(--primary); font-size: 0.8rem; font-weight: 800; letter-spacing: 3px; margin-bottom: 15px; display: block; }
+        .feature-title { font-size: 2.2rem; font-weight: 900; line-height: 1.3; margin-bottom: 25px; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .feature-desc { color: var(--text-dim); font-size: 1rem; line-height: 1.8; margin-bottom: 40px; }
 
-        .feature-title {
-            font-size: 2.2rem;
-            font-weight: 900;
-            line-height: 1.3;
-            margin-bottom: 25px;
-            background: linear-gradient(to right, #fff, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .feature-desc {
-            color: var(--text-dim);
-            font-size: 1rem;
-            line-height: 1.8;
-            margin-bottom: 40px;
-        }
-
-        /* 右側影片 (電腦 1:1) */
-        .video-side {
-            width: 45%;
-            aspect-ratio: 1 / 1;
-            background: #000;
-            overflow: hidden;
-            border-left: 1px solid var(--glass-border);
-        }
+        .video-side { width: 45%; aspect-ratio: 1 / 1; background: #000; overflow: hidden; border-left: 1px solid var(--glass-border); }
         .video-side video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* VIP 按鈕 */
         .cta-btn {
             display: inline-block;
             background: var(--primary);
@@ -114,41 +82,53 @@
             border-radius: 50px;
             font-weight: 900;
             font-size: 1.1rem;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 0 20px var(--primary-glow);
             animation: pulse-glow 2s infinite;
+            text-align: center;
         }
-        .cta-btn:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 0 40px var(--primary); }
 
         @keyframes pulse-glow {
-            0% { box-shadow: 0 0 15px var(--primary-glow); }
+            0%, 100% { box-shadow: 0 0 15px var(--primary-glow); }
             50% { box-shadow: 0 0 35px var(--primary); }
-            100% { box-shadow: 0 0 15px var(--primary-glow); }
         }
 
-        /* --- Section 2: 照片網格 --- */
+        /* --- 照片牆：浮動與懸停效果 --- */
         .gallery-header { margin-bottom: 30px; text-align: left; padding-left: 15px; border-left: 4px solid var(--primary); }
         .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 100px; }
-        .gallery-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; aspect-ratio: 1; transition: 0.4s; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
-        .gallery-item:hover { transform: scale(1.05); border-color: var(--primary); box-shadow: 0 0 20px var(--primary-glow); }
+        
+        .gallery-item { 
+            background: var(--glass); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 12px; 
+            overflow: hidden; 
+            aspect-ratio: 1; 
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s, border-color 0.4s;
+            will-change: transform; /* 優化性能 */
+        }
 
-        footer { padding: 80px 20px; text-align: center; color: var(--text-dim); font-size: 11px; border-top: 1px solid var(--glass-border); letter-spacing: 1px; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: 0.6s; }
+        
+        /* 懸停時的浮起與發光 */
+        .gallery-item:hover { 
+            transform: translateY(-10px) scale(1.03) !important; /* 強制覆蓋滾動位移 */
+            border-color: var(--primary); 
+            box-shadow: 0 15px 30px rgba(0, 210, 190, 0.3);
+            z-index: 10;
+        }
+        .gallery-item:hover img { opacity: 1; transform: scale(1.1); }
 
-        /* --- 響應式優化 --- */
+        footer { padding: 80px 20px; text-align: center; color: var(--text-dim); font-size: 11px; border-top: 1px solid var(--glass-border); }
+
+        /* 手機版優化 */
         @media (max-width: 900px) {
-            /* 手機版標題縮小 */
-            .hero-header { height: 35vh; }
-            .main-title { font-size: 1.8rem; letter-spacing: 0; }
-            .sub-title { font-size: 0.7rem; letter-spacing: 4px; }
-
-            .feature-block { flex-direction: column; border-radius: 20px; margin-bottom: 50px; }
-            .video-side { width: 100%; aspect-ratio: 9 / 16; border-left: none; border-bottom: 1px solid var(--glass-border); }
-            .content-side { padding: 40px 25px; text-align: center; background: none; }
-            .feature-title { font-size: 1.6rem; margin-bottom: 20px; }
-            .feature-desc { font-size: 0.9rem; margin-bottom: 30px; }
-            .cta-btn { width: 100%; padding: 16px; font-size: 1rem; }
-            
+            .hero-header { height: 15vh; padding-top: 20px; }
+            .main-title { font-size: 1.4rem; }
+            .sub-title { font-size: 0.65rem; letter-spacing: 3px; }
+            .feature-block { flex-direction: column; border-radius: 20px; }
+            .video-side { width: 100%; aspect-ratio: 9 / 16; border-left: none; }
+            .content-side { padding: 35px 20px; text-align: center; }
+            .feature-title { font-size: 1.5rem; }
+            .cta-btn { width: 100%; }
             .gallery { gap: 4px; padding: 0; }
             .gallery-item { border-radius: 4px; }
         }
@@ -159,77 +139,77 @@
     <div class="ocean-bg"></div>
     <div class="bioluminescence"></div>
 
-    <!-- 首頁頭 -->
     <header class="hero-header">
         <h1 class="main-title">線下活動回顧</h1>
         <p class="sub-title">OFFLINE EVENTS</p>
     </header>
 
     <div class="container">
-        
-        <!-- 核心影音與轉化區 -->
         <section class="feature-block">
-            <!-- 右側/頂部 影片 -->
             <div class="video-side">
-                <video src="https://public.swag.live/campaigns/vip-offline-event/VIP%20%E5%90%8C%E6%A8%82%E6%9C%83%20(%E7%AB%99%E5%85%A7).mp4" 
-                       autoplay muted loop playsinline preload="auto">
-                </video>
+                <video src="https://public.swag.live/campaigns/vip-offline-event/VIP%20%E5%90%8C%E6%A8%82%E6%9C%83%20(%E7%AB%99%E5%85%A7).mp4" autoplay muted loop playsinline preload="auto"></video>
             </div>
-
-            <!-- 左側/底部 文案 -->
             <div class="content-side">
                 <span class="tagline">MEMORABLE MOMENTS</span>
                 <h2 class="feature-title">LV1 即可參與<br>臉紅心跳的刺激互動</h2>
-                <p class="feature-desc">
-                    我們打破螢幕的界限，為所有等級的夥伴開啟專屬互動大門！無論你是剛加入的新朋友，還是默默守護的資深粉絲，都有機會在現場與心儀主播面對面，感受最真實的溫度。
-                </p>
-                <!-- 正式 VVIP 連結 -->
+                <p class="feature-desc">我們打破螢幕的界限，為所有等級的夥伴開啟專屬互動大門！無論你是剛加入的新朋友，還是默默守護的資深粉絲，都有機會在現場與心儀主播面對面，感受最真實的溫度。</p>
                 <a href="https://swag.live/settings/vvip" class="cta-btn">立即成為 VIP</a>
             </div>
         </section>
 
-        <!-- 照片網格 -->
         <div class="gallery-header">
-            <h2 style="font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase;">Highlights Gallery</h2>
+            <h2 style="font-size: 1rem; letter-spacing: 2px; text-transform: uppercase;">Highlights Gallery</h2>
         </div>
 
-        <div class="gallery">
-            <!-- 19 張正式照片 -->
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%AD%E5%8D%8812.35.56.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%AD%E5%8D%8812.37.53.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.30.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.39.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.52.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.04.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.13.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.34.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.43.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.47.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.06.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.18.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.27.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.36.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.44.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.56.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.41.14.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.09.png" loading="lazy"></div>
-            <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.19.png" loading="lazy"></div>
+        <div class="gallery" id="photo-gallery">
+            <!-- 所有的 19 張照片 -->
+            <div class="gallery-item" data-speed="0.05"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%AD%E5%8D%8812.35.56.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.08"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%AD%E5%8D%8812.37.53.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.04"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.30.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.07"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.39.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.05"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.52.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.09"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.04.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.04"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.13.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.06"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.34.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.08"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.43.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.05"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.47.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.07"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.06.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.04"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.18.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.06"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.27.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.08"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.36.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.05"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.44.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.07"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.56.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.04"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.41.14.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.09"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.09.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.06"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.19.png" loading="lazy"></div>
         </div>
-
     </div>
 
-    <footer>
-        © 2026 SWAG. 本公司保留最終解釋權
-    </footer>
+    <footer>© 2026 SWAG. 本公司保留最終解釋權</footer>
 
     <script>
-        // 標題視差效果
+        // --- 補回：視差滾動浮動效果腳本 ---
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
+            
+            // 標題視差
             const mainTitle = document.querySelector('.main-title');
             if (mainTitle && window.innerWidth > 900) {
                 mainTitle.style.transform = `translateY(${scrolled * 0.3}px)`;
             }
+
+            // 照片牆浮動延遲 (僅針對電腦版與大螢幕提升質感)
+            const items = document.querySelectorAll('.gallery-item');
+            items.forEach(item => {
+                const speed = parseFloat(item.getAttribute('data-speed'));
+                // 計算每個項目的浮動位移
+                const yPos = -(scrolled * speed);
+                
+                // 檢查是否正在被 Hover，如果是，則不套用滾動位移
+                if (!item.matches(':hover')) {
+                    item.style.transform = `translateY(${yPos}px)`;
+                }
+            });
         });
     </script>
 </body>
