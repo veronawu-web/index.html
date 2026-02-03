@@ -19,14 +19,14 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
         body { background-color: var(--bg-deep); color: var(--text-main); overflow-x: hidden; scroll-behavior: smooth; }
 
-        /* 背景效果 */
+        /* 背景：深海發光 */
         .ocean-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 20%, #0a242d 0%, #02080a 70%); z-index: -2; }
         .bioluminescence { position: fixed; width: 600px; height: 600px; background: var(--primary); filter: blur(200px); border-radius: 50%; opacity: 0.08; animation: drift 20s infinite alternate; z-index: -1; }
         @keyframes drift { from { transform: translate(-15%, -15%); } to { transform: translate(25%, 35%); } }
 
-        /* --- Section 0: 首頁大標題區 (Hero Header) --- */
+        /* --- Section 0: 首頁大標題區 --- */
         .hero-header {
-            height: 60vh;
+            height: 45vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -35,18 +35,19 @@
             padding: 0 20px;
         }
         .main-title {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-size: clamp(2.5rem, 8vw, 4.2rem);
             font-weight: 900;
             background: linear-gradient(to bottom, #fff 40%, var(--primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
+            letter-spacing: -1px;
         }
-        .sub-title { letter-spacing: 8px; color: var(--primary); font-size: 0.9rem; font-weight: bold; opacity: 0.8; }
+        .sub-title { letter-spacing: 8px; color: var(--primary); font-size: 0.85rem; font-weight: bold; opacity: 0.8; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 100px; }
 
-        /* --- Section 1: 核心影音區塊 (Conversion Block) --- */
+        /* --- Section 1: 核心影音區塊 --- */
         .feature-block {
             display: flex;
             align-items: center;
@@ -93,7 +94,7 @@
             margin-bottom: 40px;
         }
 
-        /* 右側影片 (電腦版 1:1) */
+        /* 右側影片 (電腦 1:1) */
         .video-side {
             width: 45%;
             aspect-ratio: 1 / 1;
@@ -101,10 +102,9 @@
             overflow: hidden;
             border-left: 1px solid var(--glass-border);
         }
-
         .video-side video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- VIP 按鈕 (呼吸發光) --- */
+        /* VIP 按鈕 */
         .cta-btn {
             display: inline-block;
             background: var(--primary);
@@ -118,7 +118,6 @@
             box-shadow: 0 0 20px var(--primary-glow);
             animation: pulse-glow 2s infinite;
         }
-
         .cta-btn:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 0 40px var(--primary); }
 
         @keyframes pulse-glow {
@@ -127,30 +126,10 @@
             100% { box-shadow: 0 0 15px var(--primary-glow); }
         }
 
-        /* --- Section 2: 照片網格 (Gallery) --- */
-        .gallery-header {
-            margin-bottom: 30px;
-            text-align: left;
-            padding-left: 15px;
-            border-left: 4px solid var(--primary);
-        }
-
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 100px;
-        }
-
-        .gallery-item {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            overflow: hidden;
-            aspect-ratio: 1;
-            transition: 0.4s;
-        }
-
+        /* --- Section 2: 照片網格 --- */
+        .gallery-header { margin-bottom: 30px; text-align: left; padding-left: 15px; border-left: 4px solid var(--primary); }
+        .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 100px; }
+        .gallery-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; aspect-ratio: 1; transition: 0.4s; }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
         .gallery-item:hover { transform: scale(1.05); border-color: var(--primary); box-shadow: 0 0 20px var(--primary-glow); }
 
@@ -158,16 +137,18 @@
 
         /* --- 響應式優化 --- */
         @media (max-width: 900px) {
-            .hero-header { height: 40vh; }
-            .feature-block { flex-direction: column; border-radius: 20px; }
-            .video-side {
-                width: 100%;
-                aspect-ratio: 9 / 16; /* 手機版還原影片原比例 */
-                border-left: none;
-                border-bottom: 1px solid var(--glass-border);
-            }
-            .content-side { padding: 40px 25px; }
-            .feature-title { font-size: 1.8rem; }
+            /* 手機版標題縮小 */
+            .hero-header { height: 35vh; }
+            .main-title { font-size: 1.8rem; letter-spacing: 0; }
+            .sub-title { font-size: 0.7rem; letter-spacing: 4px; }
+
+            .feature-block { flex-direction: column; border-radius: 20px; margin-bottom: 50px; }
+            .video-side { width: 100%; aspect-ratio: 9 / 16; border-left: none; border-bottom: 1px solid var(--glass-border); }
+            .content-side { padding: 40px 25px; text-align: center; background: none; }
+            .feature-title { font-size: 1.6rem; margin-bottom: 20px; }
+            .feature-desc { font-size: 0.9rem; margin-bottom: 30px; }
+            .cta-btn { width: 100%; padding: 16px; font-size: 1rem; }
+            
             .gallery { gap: 4px; padding: 0; }
             .gallery-item { border-radius: 4px; }
         }
@@ -178,7 +159,7 @@
     <div class="ocean-bg"></div>
     <div class="bioluminescence"></div>
 
-    <!-- 首頁頭：線下活動回顧 -->
+    <!-- 首頁頭 -->
     <header class="hero-header">
         <h1 class="main-title">線下活動回顧</h1>
         <p class="sub-title">OFFLINE EVENTS</p>
@@ -186,33 +167,34 @@
 
     <div class="container">
         
-        <!-- 核心影音區塊 -->
+        <!-- 核心影音與轉化區 -->
         <section class="feature-block">
-            <!-- 影片 -->
+            <!-- 右側/頂部 影片 -->
             <div class="video-side">
                 <video src="https://public.swag.live/campaigns/vip-offline-event/VIP%20%E5%90%8C%E6%A8%82%E6%9C%83%20(%E7%AB%99%E5%85%A7).mp4" 
                        autoplay muted loop playsinline preload="auto">
                 </video>
             </div>
 
-            <!-- 漸層文案區 -->
+            <!-- 左側/底部 文案 -->
             <div class="content-side">
                 <span class="tagline">MEMORABLE MOMENTS</span>
                 <h2 class="feature-title">LV1 即可參與<br>臉紅心跳的刺激互動</h2>
                 <p class="feature-desc">
                     我們打破螢幕的界限，為所有等級的夥伴開啟專屬互動大門！無論你是剛加入的新朋友，還是默默守護的資深粉絲，都有機會在現場與心儀主播面對面，感受最真實的溫度。
                 </p>
-                <a href="YOUR_VIP_LINK_HERE" class="cta-btn">立即成為 VIP</a>
+                <!-- 正式 VVIP 連結 -->
+                <a href="https://swag.live/settings/vvip" class="cta-btn">立即成為 VIP</a>
             </div>
         </section>
 
-        <!-- 照片合集 -->
+        <!-- 照片網格 -->
         <div class="gallery-header">
-            <h2 style="font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase;">Highlights Gallery</h2>
+            <h2 style="font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase;">Highlights Gallery</h2>
         </div>
 
         <div class="gallery">
-            <!-- 19 張照片 -->
+            <!-- 19 張正式照片 -->
             <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%AD%E5%8D%8812.35.56.png" loading="lazy"></div>
             <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%AD%E5%8D%8812.37.53.png" loading="lazy"></div>
             <div class="gallery-item"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.30.png" loading="lazy"></div>
@@ -241,11 +223,13 @@
     </footer>
 
     <script>
-        // 簡單視差效果
+        // 標題視差效果
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const mainTitle = document.querySelector('.main-title');
-            if (mainTitle) mainTitle.style.transform = `translateY(${scrolled * 0.3}px)`;
+            if (mainTitle && window.innerWidth > 900) {
+                mainTitle.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
         });
     </script>
 </body>
