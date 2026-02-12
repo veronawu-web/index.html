@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>線下活動回顧 | SWAG</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -10,14 +10,14 @@
             --primary: rgb(0, 210, 190);
             --primary-glow: rgba(0, 210, 190, 0.5);
             --bg-deep: #02080a;
-            --glass: rgba(255, 255, 255, 0.05);
+            --glass: rgba(255, 255, 255, 0.06);
             --glass-border: rgba(255, 255, 255, 0.15);
             --text-main: #ffffff;
             --text-dim: rgba(255, 255, 255, 0.7);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
-        body { background-color: var(--bg-deep); color: var(--text-main); overflow-x: hidden; scroll-behavior: smooth; }
+        body { background-color: var(--bg-deep); color: var(--text-main); overflow-x: hidden; width: 100%; }
 
         /* 背景：深海發光 */
         .ocean-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 20%, #0a242d 0%, #02080a 70%); z-index: -2; }
@@ -26,7 +26,7 @@
 
         /* 頁首標題區 */
         .hero-header {
-            height: 40vh;
+            height: 35vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -35,49 +35,46 @@
             padding: 0 20px;
         }
         .main-title {
-            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-size: clamp(2.2rem, 8vw, 4rem);
             font-weight: 900;
             background: linear-gradient(to bottom, #fff 40%, var(--primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
         }
-        .sub-title { letter-spacing: 8px; color: var(--primary); font-size: 0.85rem; font-weight: bold; opacity: 0.8; }
+        .sub-title { letter-spacing: 8px; color: var(--primary); font-size: 0.85rem; font-weight: bold; }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 100px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 100px; position: relative; z-index: 1; }
 
         /* 核心影音轉化區 */
         .feature-block {
             display: flex;
-            align-items: center;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
             border-radius: 32px;
             overflow: hidden;
-            margin-bottom: 100px;
+            margin-bottom: 80px;
             box-shadow: 0 40px 100px rgba(0,0,0,0.5);
         }
 
         .content-side {
             flex: 1;
             padding: 60px;
-            text-align: left;
-            background: linear-gradient(90deg, rgba(2, 8, 10, 0.8) 0%, transparent 100%);
+            background: linear-gradient(90deg, rgba(2, 8, 10, 0.85) 0%, transparent 100%);
         }
 
         .tagline { color: var(--primary); font-size: 0.8rem; font-weight: 800; letter-spacing: 3px; margin-bottom: 15px; display: block; }
-        .feature-title { font-size: 2.2rem; font-weight: 900; line-height: 1.3; margin-bottom: 25px; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .feature-title { font-size: 2.2rem; font-weight: 900; line-height: 1.3; margin-bottom: 25px; color: #fff; }
         .feature-desc { color: var(--text-dim); font-size: 1rem; line-height: 1.8; margin-bottom: 40px; }
 
+        /* 影片側 (電腦版 1:1) */
         .video-side { width: 45%; aspect-ratio: 1 / 1; background: #000; overflow: hidden; border-left: 1px solid var(--glass-border); }
         .video-side video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* VIP 按鈕 */
         .cta-btn {
             display: inline-block;
             background: var(--primary);
-            color: #000;
+            color: #02080a;
             text-decoration: none;
             padding: 18px 45px;
             border-radius: 50px;
@@ -93,55 +90,50 @@
             50% { box-shadow: 0 0 35px var(--primary); }
         }
 
-        /* --- 照片牆標題：增加下方間距 --- */
-        .gallery-header { 
-            margin-bottom: 60px; /* 從 30px 增加到 60px，增加留白感 */
-            text-align: left; 
-            padding-left: 15px; 
-            border-left: 4px solid var(--primary); 
-        }
-        
-        .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 100px; }
-        
-        .gallery-item { 
-            background: var(--glass); 
-            border: 1px solid var(--glass-border); 
-            border-radius: 12px; 
-            overflow: hidden; 
-            aspect-ratio: 1; 
-            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s;
-            will-change: transform;
-        }
+        /* 照片牆 */
+        .gallery-header { margin-bottom: 40px; text-align: left; padding-left: 15px; border-left: 4px solid var(--primary); }
+        .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 100px; width: 100%; }
+        .gallery-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; aspect-ratio: 1; transition: 0.4s; position: relative; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; display: block; }
 
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: 0.6s; }
-        
-        /* 懸停效果 */
-        .gallery-item:hover { 
-            transform: translateY(-10px) scale(1.03) !important;
-            border-color: var(--primary); 
-            box-shadow: 0 15px 30px rgba(0, 210, 190, 0.3);
-            z-index: 10;
-        }
-        .gallery-item:hover img { opacity: 1; transform: scale(1.1); }
+        footer { padding: 60px 20px; text-align: center; color: var(--text-dim); font-size: 11px; border-top: 1px solid var(--glass-border); }
 
-        footer { padding: 80px 20px; text-align: center; color: var(--text-dim); font-size: 11px; border-top: 1px solid var(--glass-border); }
-
-        /* 手機版優化 */
+        /* --- 📱 手機版穩定佈局 --- */
         @media (max-width: 900px) {
-            .hero-header { height: 15vh; padding-top: 20px; }
-            .main-title { font-size: 1.4rem; }
-            .sub-title { font-size: 0.65rem; letter-spacing: 3px; }
-            
-            /* 手機版照片牆標題間距 */
-            .gallery-header { margin-bottom: 40px; } 
+            .hero-header { height: 120px; padding-top: 40px; margin-bottom: 20px; }
+            .main-title { font-size: 1.5rem; }
+            .sub-title { font-size: 0.65rem; letter-spacing: 4px; }
 
-            .feature-block { flex-direction: column; border-radius: 20px; margin-bottom: 60px; }
-            .video-side { width: 100%; aspect-ratio: 9 / 16; border-left: none; }
-            .content-side { padding: 35px 20px; text-align: center; }
-            .feature-title { font-size: 1.5rem; }
-            .cta-btn { width: 100%; }
-            .gallery { gap: 4px; padding: 0; }
-            .gallery-item { border-radius: 4px; }
+            .container { padding: 0 10px 60px; }
+
+            .feature-block { 
+                flex-direction: column; 
+                border-radius: 20px; 
+                margin-bottom: 50px; 
+                background: rgba(255, 255, 255, 0.05); /* 手機版不依賴複雜漸層 */
+            }
+
+            .video-side { 
+                width: 100%; 
+                aspect-ratio: 16 / 9; /* 手機版影片不要佔滿整屏，16:9 較適中 */
+                border-left: none; 
+                border-bottom: 1px solid var(--glass-border); 
+            }
+
+            .content-side { 
+                padding: 30px 20px; 
+                text-align: center; 
+                background: none; /* 移除手機版文字背景漸層 */
+            }
+
+            .feature-title { font-size: 1.5rem; margin-bottom: 15px; }
+            .feature-desc { font-size: 0.85rem; margin-bottom: 25px; line-height: 1.6; }
+            .cta-btn { width: 100%; padding: 16px; font-size: 1rem; border-radius: 12px; }
+            
+            .gallery-header { margin-bottom: 25px; }
+            .gallery { gap: 6px; padding: 0; }
+            .gallery-item { border-radius: 6px; transform: none !important; } /* 手機版禁用所有 JS 位移 */
+            .gallery-item:hover { transform: none !important; }
         }
     </style>
 </head>
@@ -164,18 +156,18 @@
             <div class="content-side">
                 <span class="tagline">MEMORABLE MOMENTS</span>
                 <h2 class="feature-title">LV1 即可參與<br>臉紅心跳的刺激互動</h2>
-                <p class="feature-desc">我們打破螢幕的界限，為所有等級的夥伴開啟專屬互動大門！無論你是剛加入的新朋友，還是默默守護的資深粉絲，都有機會在現場與心儀主播面對面，感受最真實的溫度。</p>
+                <p class="feature-desc">我們打破螢幕的界限，為所有等級的夥伴開啟專屬互動大門！無論你是剛加入的新朋友，還是默默守護的資深粉絲，都有機會在現場與心儀主播面對面。</p>
                 <a href="https://swag.live/settings/vvip" class="cta-btn">立即成為 VIP</a>
             </div>
         </section>
 
-        <!-- 照片牆標題 -->
+        <!-- 照片牆 -->
         <div class="gallery-header">
-            <h2 style="font-size: 1rem; letter-spacing: 2px; text-transform: uppercase;">Highlights Gallery</h2>
+            <h2 style="font-size: 1rem; letter-spacing: 2px;">HIGHLIGHTS GALLERY</h2>
         </div>
 
-        <div class="gallery">
-            <!-- 所有的 19 張照片 -->
+        <div class="gallery" id="photo-gallery">
+               <!-- 所有的 19 張照片 -->
             <div class="gallery-item" data-speed="0.05"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%AD%E5%8D%8812.35.56.png" loading="lazy"></div>
             <div class="gallery-item" data-speed="0.08"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%8B%E5%8D%881.43.27.png" loading="lazy"></div>
             <div class="gallery-item" data-speed="0.04"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.30.png" loading="lazy"></div>
@@ -195,31 +187,32 @@
             <div class="gallery-item" data-speed="0.04"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.41.14.png" loading="lazy"></div>
             <div class="gallery-item" data-speed="0.09"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.09.png" loading="lazy"></div>
             <div class="gallery-item" data-speed="0.06"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.19.png" loading="lazy"></div>
-      </div>
+        </div>
     </div>
 
     <footer>© 2026 SWAG. 本公司保留最終解釋權</footer>
 
     <script>
-        // 視差滾動效果
+        // --- 手機穩定性腳本 ---
         window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            
-            // 標題視差 (僅電腦版)
-            const mainTitle = document.querySelector('.main-title');
-            if (mainTitle && window.innerWidth > 900) {
-                mainTitle.style.transform = `translateY(${scrolled * 0.3}px)`;
-            }
+            // 只有寬度大於 900px (電腦版) 才啟動浮動效果
+            if (window.innerWidth > 900) {
+                const scrolled = window.pageYOffset;
+                
+                // 標題視差
+                const mainTitle = document.querySelector('.main-title');
+                if (mainTitle) mainTitle.style.transform = `translateY(${scrolled * 0.3}px)`;
 
-            // 照片牆浮動延遲
-            const items = document.querySelectorAll('.gallery-item');
-            items.forEach(item => {
-                const speed = parseFloat(item.getAttribute('data-speed'));
-                const yPos = -(scrolled * speed);
-                if (!item.matches(':hover')) {
-                    item.style.transform = `translateY(${yPos}px)`;
-                }
-            });
+                // 照片牆浮動
+                const items = document.querySelectorAll('.gallery-item');
+                items.forEach(item => {
+                    const speed = parseFloat(item.getAttribute('data-speed'));
+                    const yPos = -(scrolled * speed);
+                    if (!item.matches(':hover')) {
+                        item.style.transform = `translateY(${yPos}px)`;
+                    }
+                });
+            }
         });
     </script>
 </body>
