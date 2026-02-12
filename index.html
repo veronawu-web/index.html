@@ -55,7 +55,7 @@
             border: 1px solid var(--glass-border);
             border-radius: 32px;
             overflow: hidden;
-            margin-bottom: 80px;
+            margin-bottom: 100px;
             box-shadow: 0 40px 100px rgba(0,0,0,0.5);
         }
 
@@ -73,6 +73,7 @@
         .video-side { width: 45%; aspect-ratio: 1 / 1; background: #000; overflow: hidden; border-left: 1px solid var(--glass-border); }
         .video-side video { width: 100%; height: 100%; object-fit: cover; }
 
+        /* VIP 按鈕 */
         .cta-btn {
             display: inline-block;
             background: var(--primary);
@@ -92,8 +93,14 @@
             50% { box-shadow: 0 0 35px var(--primary); }
         }
 
-        /* --- 照片牆：浮動與懸停效果 --- */
-        .gallery-header { margin-bottom: 30px; text-align: left; padding-left: 15px; border-left: 4px solid var(--primary); }
+        /* --- 照片牆標題：增加下方間距 --- */
+        .gallery-header { 
+            margin-bottom: 60px; /* 從 30px 增加到 60px，增加留白感 */
+            text-align: left; 
+            padding-left: 15px; 
+            border-left: 4px solid var(--primary); 
+        }
+        
         .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 100px; }
         
         .gallery-item { 
@@ -102,15 +109,15 @@
             border-radius: 12px; 
             overflow: hidden; 
             aspect-ratio: 1; 
-            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s, border-color 0.4s;
-            will-change: transform; /* 優化性能 */
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s;
+            will-change: transform;
         }
 
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: 0.6s; }
         
-        /* 懸停時的浮起與發光 */
+        /* 懸停效果 */
         .gallery-item:hover { 
-            transform: translateY(-10px) scale(1.03) !important; /* 強制覆蓋滾動位移 */
+            transform: translateY(-10px) scale(1.03) !important;
             border-color: var(--primary); 
             box-shadow: 0 15px 30px rgba(0, 210, 190, 0.3);
             z-index: 10;
@@ -124,7 +131,11 @@
             .hero-header { height: 15vh; padding-top: 20px; }
             .main-title { font-size: 1.4rem; }
             .sub-title { font-size: 0.65rem; letter-spacing: 3px; }
-            .feature-block { flex-direction: column; border-radius: 20px; }
+            
+            /* 手機版照片牆標題間距 */
+            .gallery-header { margin-bottom: 40px; } 
+
+            .feature-block { flex-direction: column; border-radius: 20px; margin-bottom: 60px; }
             .video-side { width: 100%; aspect-ratio: 9 / 16; border-left: none; }
             .content-side { padding: 35px 20px; text-align: center; }
             .feature-title { font-size: 1.5rem; }
@@ -145,6 +156,7 @@
     </header>
 
     <div class="container">
+        <!-- 影音轉化區 -->
         <section class="feature-block">
             <div class="video-side">
                 <video src="https://public.swag.live/campaigns/vip-offline-event/VIP%20%E5%90%8C%E6%A8%82%E6%9C%83%20(%E7%AB%99%E5%85%A7).mp4" autoplay muted loop playsinline preload="auto"></video>
@@ -157,11 +169,12 @@
             </div>
         </section>
 
+        <!-- 照片牆標題 -->
         <div class="gallery-header">
             <h2 style="font-size: 1rem; letter-spacing: 2px; text-transform: uppercase;">Highlights Gallery</h2>
         </div>
 
-        <div class="gallery" id="photo-gallery">
+        <div class="gallery">
             <!-- 所有的 19 張照片 -->
             <div class="gallery-item" data-speed="0.05"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%AD%E5%8D%8812.35.56.png" loading="lazy"></div>
             <div class="gallery-item" data-speed="0.08"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%8B%E5%8D%881.43.27.png" loading="lazy"></div>
@@ -182,30 +195,27 @@
             <div class="gallery-item" data-speed="0.04"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.41.14.png" loading="lazy"></div>
             <div class="gallery-item" data-speed="0.09"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.09.png" loading="lazy"></div>
             <div class="gallery-item" data-speed="0.06"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.19.png" loading="lazy"></div>
-        </div>
+      </div>
     </div>
 
     <footer>© 2026 SWAG. 本公司保留最終解釋權</footer>
 
     <script>
-        // --- 補回：視差滾動浮動效果腳本 ---
+        // 視差滾動效果
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             
-            // 標題視差
+            // 標題視差 (僅電腦版)
             const mainTitle = document.querySelector('.main-title');
             if (mainTitle && window.innerWidth > 900) {
                 mainTitle.style.transform = `translateY(${scrolled * 0.3}px)`;
             }
 
-            // 照片牆浮動延遲 (僅針對電腦版與大螢幕提升質感)
+            // 照片牆浮動延遲
             const items = document.querySelectorAll('.gallery-item');
             items.forEach(item => {
                 const speed = parseFloat(item.getAttribute('data-speed'));
-                // 計算每個項目的浮動位移
                 const yPos = -(scrolled * speed);
-                
-                // 檢查是否正在被 Hover，如果是，則不套用滾動位移
                 if (!item.matches(':hover')) {
                     item.style.transform = `translateY(${yPos}px)`;
                 }
