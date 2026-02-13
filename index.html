@@ -25,70 +25,23 @@
         @keyframes drift { from { transform: translate(-15%, -15%); } to { transform: translate(25%, 35%); } }
 
         /* 頁首標題區 */
-        .hero-header {
-            height: 35vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-        }
-        .main-title {
-            font-size: clamp(2.2rem, 8vw, 4rem);
-            font-weight: 900;
-            background: linear-gradient(to bottom, #fff 40%, var(--primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        .hero-header { height: 35vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
+        .main-title { font-size: clamp(2.2rem, 8vw, 4rem); font-weight: 900; background: linear-gradient(to bottom, #fff 40%, var(--primary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .sub-title { letter-spacing: 8px; color: var(--primary); font-size: 0.85rem; font-weight: bold; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 100px; position: relative; z-index: 1; }
 
-        /* 核心影音轉化區 */
-        .feature-block {
-            display: flex;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            border-radius: 32px;
-            overflow: hidden;
-            margin-bottom: 80px;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
-        }
-
-        .content-side {
-            flex: 1;
-            padding: 60px;
-            background: linear-gradient(90deg, rgba(2, 8, 10, 0.85) 0%, transparent 100%);
-        }
-
+        /* 核心影音區 */
+        .feature-block { display: flex; background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 32px; overflow: hidden; margin-bottom: 80px; box-shadow: 0 40px 100px rgba(0,0,0,0.5); }
+        .content-side { flex: 1; padding: 60px; background: linear-gradient(90deg, rgba(2, 8, 10, 0.85) 0%, transparent 100%); }
         .tagline { color: var(--primary); font-size: 0.8rem; font-weight: 800; letter-spacing: 3px; margin-bottom: 15px; display: block; }
         .feature-title { font-size: 2.2rem; font-weight: 900; line-height: 1.3; margin-bottom: 25px; color: #fff; }
         .feature-desc { color: var(--text-dim); font-size: 1rem; line-height: 1.8; margin-bottom: 40px; }
-
-        /* 影片側 (電腦版 1:1) */
         .video-side { width: 45%; aspect-ratio: 1 / 1; background: #000; overflow: hidden; border-left: 1px solid var(--glass-border); }
         .video-side video { width: 100%; height: 100%; object-fit: cover; }
 
-        .cta-btn {
-            display: inline-block;
-            background: var(--primary);
-            color: #02080a;
-            text-decoration: none;
-            padding: 18px 45px;
-            border-radius: 50px;
-            font-weight: 900;
-            font-size: 1.1rem;
-            box-shadow: 0 0 20px var(--primary-glow);
-            animation: pulse-glow 2s infinite;
-            text-align: center;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 15px var(--primary-glow); }
-            50% { box-shadow: 0 0 35px var(--primary); }
-        }
+        .cta-btn { display: inline-block; background: var(--primary); color: #02080a; text-decoration: none; padding: 18px 45px; border-radius: 50px; font-weight: 900; font-size: 1.1rem; box-shadow: 0 0 20px var(--primary-glow); animation: pulse-glow 2s infinite; text-align: center; }
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 15px var(--primary-glow); } 50% { box-shadow: 0 0 35px var(--primary); } }
 
         /* 照片牆 */
         .gallery-header { margin-bottom: 40px; text-align: left; padding-left: 15px; border-left: 4px solid var(--primary); }
@@ -98,109 +51,18 @@
 
         footer { padding: 60px 20px; text-align: center; color: var(--text-dim); font-size: 11px; border-top: 1px solid var(--glass-border); }
 
-        /* --- 📱 手機版穩定佈局 --- */
         @media (max-width: 900px) {
             .hero-header { height: 120px; padding-top: 40px; margin-bottom: 20px; }
             .main-title { font-size: 1.5rem; }
             .sub-title { font-size: 0.65rem; letter-spacing: 4px; }
-
-            .container { padding: 0 10px 60px; }
-
-            .feature-block { 
-                flex-direction: column; 
-                border-radius: 20px; 
-                margin-bottom: 50px; 
-                background: rgba(255, 255, 255, 0.05); /* 手機版不依賴複雜漸層 */
-            }
-
-            .video-side { 
-                width: 100%; 
-                aspect-ratio: 16 / 9; /* 手機版影片不要佔滿整屏，16:9 較適中 */
-                border-left: none; 
-                border-bottom: 1px solid var(--glass-border); 
-            }
-
-            .content-side { 
-                padding: 30px 20px; 
-                text-align: center; 
-                background: none; /* 移除手機版文字背景漸層 */
-            }
-
-            .feature-title { font-size: 1.5rem; margin-bottom: 15px; }
-            .feature-desc { font-size: 0.85rem; margin-bottom: 25px; line-height: 1.6; }
-            .cta-btn { width: 100%; padding: 16px; font-size: 1rem; border-radius: 12px; }
-            
-            .gallery-header { margin-bottom: 25px; }
-            .gallery { gap: 6px; padding: 0; }
-            .gallery-item { border-radius: 6px; transform: none !important; } /* 手機版禁用所有 JS 位移 */
-            .gallery-item:hover { transform: none !important; }
+            .feature-block { flex-direction: column; border-radius: 20px; }
+            .video-side { width: 100%; aspect-ratio: 16 / 9; }
+            .content-side { padding: 30px 20px; text-align: center; }
+            .cta-btn { width: 100%; }
+            .gallery { grid-template-columns: repeat(2, 1fr); } /* 手機版改兩欄較好閱讀 */
         }
     </style>
 </head>
-<script>
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>活動頁面 - VIP 專屬</title>
-    <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f4f4; }
-        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
-        h1 { color: #333; }
-        p { color: #666; }
-    </style>
-</head>
-<body>
-
-    <div class="card">
-        <h1>歡迎蒞臨 VIP 活動</h1>
-        <p>頁面載入中，請稍候...</p>
-    </div>
-
-    <script>
-        /**
-         * 自動追蹤腳本：將訪客資訊送往 Google 表單
-         */
-        function trackVipActivity() {
-            // 1. 設定你的 Google 表單 ID 與 欄位編號
-            const formId = "1FAIpQLSesHoOdtFWwrxuRGysrK9eLhIwz_Bs0A_T45kBzjxKQftR_Gg";
-            const entryActionId = "entry.666751855"; // 點擊/行為
-            const entrySourceId = "entry.2068289123"; // 來源
-            const entryUserIdId = "entry.839486570"; // User ID
-
-            // 2. 取得動態數據
-            const urlParams = new URLSearchParams(window.location.search);
-            const userId = urlParams.get('user_id') || "Guest"; // 從網址 ?user_id= 抓取
-            const source = document.referrer || "Direct"; // 抓取是從哪個網頁跳轉過來的
-
-            // 3. 組合自動提交的 URL
-            // 注意：這裡加入了 &submit=Submit 確保自動送出
-            const googleFormUrl = `https://docs.google.com/forms/d/e/${formId}/formResponse?` + 
-                                  `${entryActionId}=造訪活動頁&` +
-                                  `${entrySourceId}=${encodeURIComponent(source)}&` +
-                                  `${entryUserIdId}=${encodeURIComponent(userId)}&` +
-                                  `submit=Submit`;
-
-            // 4. 使用 fetch 發送請求 (no-cors 模式)
-            fetch(googleFormUrl, {
-                method: "POST",
-                mode: "no-cors",
-                keepalive: true
-            })
-            .then(() => {
-                console.log("Track Success: ", { userId, source });
-            })
-            .catch((err) => {
-                console.error("Track Error: ", err);
-            });
-        }
-
-        // 當網頁完全載入後啟動追蹤
-        window.addEventListener('load', trackVipActivity);
-    </script>
-</body>
-</html>
 <body>
 
     <div class="ocean-bg"></div>
@@ -212,7 +74,6 @@
     </header>
 
     <div class="container">
-        <!-- 影音轉化區 -->
         <section class="feature-block">
             <div class="video-side">
                 <video src="https://public.swag.live/campaigns/vip-offline-event/VIP%20%E5%90%8C%E6%A8%82%E6%9C%83%20(%E7%AB%99%E5%85%A7).mp4" autoplay muted loop playsinline preload="auto"></video>
@@ -225,49 +86,49 @@
             </div>
         </section>
 
-        <!-- 照片牆 -->
         <div class="gallery-header">
-            <h2 style="font-size: 1rem; letter-spacing: 2px;">HIGHLIGHTS GALLERY</h2>
+            <h2 style="font-size: 1rem; letter-spacing: 2px; color: var(--primary);">HIGHLIGHTS GALLERY</h2>
         </div>
 
         <div class="gallery" id="photo-gallery">
-               <!-- 所有的 19 張照片 -->
             <div class="gallery-item" data-speed="0.05"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%AD%E5%8D%8812.35.56.png" loading="lazy"></div>
             <div class="gallery-item" data-speed="0.08"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%8B%E5%8D%881.43.27.png" loading="lazy"></div>
             <div class="gallery-item" data-speed="0.04"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.30.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.07"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.39.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.05"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.52.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.09"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.04.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.04"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.13.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.06"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.34.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.08"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.43.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.05"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.47.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.07"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.06.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.04"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.18.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.06"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.27.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.08"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.36.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.05"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.44.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.07"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.56.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.04"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.41.14.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.09"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.09.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.06"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.19.png" loading="lazy"></div>
-        </div>
+            </div>
     </div>
 
     <footer>© 2026 SWAG. 本公司保留最終解釋權</footer>
 
     <script>
-        // --- 手機穩定性腳本 ---
-        window.addEventListener('scroll', () => {
-            // 只有寬度大於 900px (電腦版) 才啟動浮動效果
+        // 1. VIP 追蹤功能 (Google Form)
+        function trackVipActivity() {
+            const formId = "1FAIpQLSesHoOdtFWwrxuRGysrK9eLhIwz_Bs0A_T45kBzjxKQftR_Gg";
+            const entryActionId = "entry.666751855"; 
+            const entrySourceId = "entry.2068289123";
+            const entryUserIdId = "entry.839486570";
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('user_id') || "Guest";
+            const source = document.referrer || "Direct";
+
+            const googleFormUrl = `https://docs.google.com/forms/d/e/${formId}/formResponse?` + 
+                                  `${entryActionId}=造訪活動頁&` +
+                                  `${entrySourceId}=${encodeURIComponent(source)}&` +
+                                  `${entryUserIdId}=${encodeURIComponent(userId)}&` +
+                                  `submit=Submit`;
+
+            // 使用 fetch 發送
+            fetch(googleFormUrl, { method: "POST", mode: "no-cors", keepalive: true });
+            console.log("VIP Tracking active:", userId);
+        }
+
+        // 2. 頁面視覺效果 (視差滾動)
+        function handleScrollEffects() {
             if (window.innerWidth > 900) {
                 const scrolled = window.pageYOffset;
-                
-                // 標題視差
                 const mainTitle = document.querySelector('.main-title');
                 if (mainTitle) mainTitle.style.transform = `translateY(${scrolled * 0.3}px)`;
 
-                // 照片牆浮動
                 const items = document.querySelectorAll('.gallery-item');
                 items.forEach(item => {
                     const speed = parseFloat(item.getAttribute('data-speed'));
@@ -277,6 +138,12 @@
                     }
                 });
             }
+        }
+
+        // 執行所有初始化
+        window.addEventListener('load', () => {
+            trackVipActivity();
+            window.addEventListener('scroll', handleScrollEffects);
         });
     </script>
 </body>
