@@ -137,6 +137,22 @@
         }
     </style>
 </head>
+<script>
+  // 網頁一載入，自動發送數據到 Google 試算表
+  window.onload = function() {
+    var googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSesHoOdtFWwrxuRGysrK9eLhIwz_Bs0A_T45kBzjxKQftR_Gg/formResponse?usp=pp_url&entry.666751855=%E9%BB%9E%E6%93%8A&submit=Submit";
+    
+    // 使用 fetch 發送請求，no-cors 模式確保不會報錯
+    fetch(googleFormUrl, {
+      method: "POST",
+      mode: "no-cors"
+    }).then(function() {
+      console.log("數據已成功發送至 Google 試算表");
+    }).catch(function(error) {
+      console.error("發送失敗：", error);
+    });
+  };
+</script>
 <body>
 
     <div class="ocean-bg"></div>
