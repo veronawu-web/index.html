@@ -14,6 +14,7 @@
             --glass-border: rgba(255, 255, 255, 0.15);
             --text-main: #ffffff;
             --text-dim: rgba(255, 255, 255, 0.7);
+            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
@@ -24,7 +25,7 @@
         .bioluminescence { position: fixed; width: 600px; height: 600px; background: var(--primary); filter: blur(200px); border-radius: 50%; opacity: 0.08; animation: drift 20s infinite alternate; z-index: -1; }
         @keyframes drift { from { transform: translate(-15%, -15%); } to { transform: translate(25%, 35%); } }
 
-        /* 頁首：電腦版 */
+        /* 頁首標題區 */
         .hero-header { height: 35vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
         .main-title { font-size: clamp(2.2rem, 8vw, 4rem); font-weight: 900; background: linear-gradient(to bottom, #fff 40%, var(--primary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .sub-title { letter-spacing: 8px; color: var(--primary); font-size: 0.85rem; font-weight: bold; }
@@ -40,11 +41,78 @@
         .video-side { width: 45%; aspect-ratio: 1 / 1; background: #000; overflow: hidden; border-left: 1px solid var(--glass-border); }
         .video-side video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* 按鈕特效 */
         .cta-btn { display: inline-block; background: var(--primary); color: #02080a; text-decoration: none; padding: 18px 45px; border-radius: 50px; font-weight: 900; font-size: 1.1rem; box-shadow: 0 0 20px var(--primary-glow); animation: pulse-glow 2s infinite; text-align: center; }
-        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 15px var(--primary-glow); } 50% { box-shadow: 0 0 35px var(--primary); } }
 
-        /* 照片牆標題與網格 */
+        /* --- 💎 修正：本月活動區塊 (黑金邀請函 - 主視覺絕對不裁切版) --- */
+        .upcoming-card {
+            display: flex;
+            background: #000; 
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            margin-bottom: 80px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .upcoming-card::after {
+            content: "";
+            position: absolute;
+            top: -100%; left: -100%;
+            width: 50%; height: 300%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(25deg);
+            animation: sweep 4s infinite;
+            pointer-events: none;
+            z-index: 5;
+        }
+        @keyframes sweep { 0% { left: -100%; } 30%, 100% { left: 200%; } }
+
+        /* 左側圖片區：加強置中與保護 */
+        .upcoming-visual {
+            width: 40%;
+            background: #000;
+            padding: 40px; /* 增加邊距防止碰到邊緣 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+        .upcoming-visual img {
+            max-width: 90%; /* 寬度上限 */
+            max-height: 220px; /* 高度上限 */
+            width: auto;
+            height: auto;
+            object-fit: contain; /* 雙重保險不裁切 */
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+        }
+
+        /* 右側文案區：金色底 */
+        .upcoming-info {
+            flex: 1;
+            background: var(--gold-gradient);
+            padding: 50px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .upcoming-title { font-size: 1.6rem; font-weight: 900; color: #1a1100; margin-bottom: 12px; }
+        .upcoming-text { color: #2d2415; font-size: 0.95rem; margin-bottom: 30px; line-height: 1.6; font-weight: 600; }
+        .upcoming-btn {
+            align-self: flex-start;
+            background: #1a1100;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 35px;
+            border-radius: 12px;
+            font-weight: 800;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .upcoming-btn:hover { background: #000; transform: translateY(-2px); }
+
+        /* 照片牆 */
         .gallery-header { margin-bottom: 60px; text-align: left; padding-left: 15px; border-left: 4px solid var(--primary); }
         .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 100px; width: 100%; }
         .gallery-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; aspect-ratio: 1; transition: 0.4s; position: relative; }
@@ -53,20 +121,21 @@
 
         footer { padding: 60px 20px; text-align: center; color: var(--text-dim); font-size: 11px; border-top: 1px solid var(--glass-border); }
 
-        /* --- 📱 手機版穩定佈局 --- */
         @media (max-width: 900px) {
             .hero-header { height: 120px; padding-top: 40px; margin-bottom: 20px; }
             .main-title { font-size: 1.5rem; }
-            .sub-title { font-size: 0.65rem; letter-spacing: 4px; }
-            .container { padding: 0 10px 60px; }
             .feature-block { flex-direction: column; border-radius: 20px; }
             .video-side { width: 100%; aspect-ratio: 16 / 9; border-left: none; }
-            .content-side { padding: 30px 20px; text-align: center; background: none; }
-            .feature-title { font-size: 1.5rem; }
-            .cta-btn { width: 100%; padding: 16px; font-size: 1rem; }
-            .gallery-header { margin-bottom: 40px; }
-            .gallery { gap: 6px; padding: 0; grid-template-columns: repeat(3, 1fr); }
-            .gallery-item { border-radius: 6px; transform: none !important; }
+            .content-side { padding: 30px 20px; text-align: center; }
+            
+            .upcoming-card { flex-direction: column; }
+            .upcoming-visual { width: 100%; height: 200px; padding: 30px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .upcoming-visual img { max-height: 140px; }
+            .upcoming-info { padding: 35px 20px; text-align: center; }
+            .upcoming-btn { align-self: center; width: 100%; }
+
+            .gallery { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+            .gallery-item { transform: none !important; }
         }
     </style>
 </head>
@@ -81,7 +150,7 @@
     </header>
 
     <div class="container">
-        <!-- 核心轉換區 -->
+        <!-- 核心影音 -->
         <section class="feature-block">
             <div class="video-side">
                 <video src="https://public.swag.live/campaigns/vip-offline-event/VIP%20%E5%90%8C%E6%A8%82%E6%9C%83%20(%E7%AB%99%E5%85%A7).mp4" autoplay muted loop playsinline preload="auto"></video>
@@ -89,10 +158,22 @@
             <div class="content-side">
                 <span class="tagline">MEMORABLE MOMENTS</span>
                 <h2 class="feature-title">LV1 即可參與<br>臉紅心跳的刺激互動</h2>
-                <p class="feature-desc">我們打破螢幕的界限，為所有等級的夥伴開啟專屬互動大門！有機會在現場與心儀主播面對面，感受最真實的溫度。</p>
+                <p class="feature-desc">我們打破螢幕的界限，為所有等級的夥伴開啟專屬互動大門！無論你是剛加入的新朋友，還是默默守護的資深粉絲，都有機會在現場與心儀主播面對面。</p>
                 <a href="https://swag.live/settings/vvip" class="cta-btn" onclick="trackVipActivity('點擊成為VIP')">立即成為 VIP</a>
             </div>
         </section>
+
+        <!-- ✨ 修正後的黑金區塊 (不裁切主視覺) -->
+        <div class="upcoming-card">
+            <div class="upcoming-visual">
+                <img src="https://public.swag.live/campaigns/vip-offline-event/%E8%B3%87%E7%94%A2%201.png" alt="VIP主視覺">
+            </div>
+            <div class="upcoming-info">
+                <h2 class="upcoming-title">想參與更多心跳加速的互動嗎？</h2>
+                <p class="upcoming-text">點擊下方按鈕，隨時掌握本月最新活動時程與報名資訊。</p>
+                <a href="https://swag.live/events" class="upcoming-btn" onclick="trackVipActivity('點擊近期活動')">查看本月活動</a>
+            </div>
+        </div>
 
         <div class="gallery-header">
             <h2 style="font-size: 1rem; letter-spacing: 2px; color: var(--primary);">HIGHLIGHTS GALLERY</h2>
@@ -119,13 +200,12 @@
             <div class="gallery-item" data-speed="0.07"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.41.14.png" loading="lazy"></div>
             <div class="gallery-item" data-speed="0.09"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.09.png" loading="lazy"></div>
             <div class="gallery-item" data-speed="0.06"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.19.png" loading="lazy"></div>
-        </div>
+ </div>
     </div>
 
     <footer>© 2026 SWAG. 本公司保留最終解釋權</footer>
 
     <script>
-        // 1. VIP 數據追蹤
         function trackVipActivity(actionName = "造訪活動頁") {
             const formId = "1FAIpQLSesHoOdtFWwrxuRGysrK9eLhIwz_Bs0A_T45kBzjxKQftR_Gg";
             const entryActionId = "entry.666751855"; 
@@ -143,18 +223,15 @@
                                   `submit=Submit`;
 
             fetch(googleFormUrl, { method: "POST", mode: "no-cors", keepalive: true });
-            console.log(`Tracking: [${actionName}] for [${userId}]`);
         }
 
-        // 2. 捲動位移腳本
         window.addEventListener('scroll', () => {
             if (window.innerWidth > 900) {
                 const scrolled = window.pageYOffset;
                 const mainTitle = document.querySelector('.main-title');
                 if (mainTitle) mainTitle.style.transform = `translateY(${scrolled * 0.3}px)`;
 
-                const items = document.querySelectorAll('.gallery-item');
-                items.forEach(item => {
+                document.querySelectorAll('.gallery-item').forEach(item => {
                     const speed = parseFloat(item.getAttribute('data-speed'));
                     const yPos = -(scrolled * speed);
                     if (!item.matches(':hover')) {
@@ -164,10 +241,7 @@
             }
         });
 
-        // 3. 初始載入
-        window.addEventListener('load', () => {
-            trackVipActivity("進入活動頁");
-        });
+        window.addEventListener('load', () => { trackVipActivity("進入活動頁"); });
     </script>
 </body>
 </html>
