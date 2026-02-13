@@ -24,7 +24,7 @@
         .bioluminescence { position: fixed; width: 600px; height: 600px; background: var(--primary); filter: blur(200px); border-radius: 50%; opacity: 0.08; animation: drift 20s infinite alternate; z-index: -1; }
         @keyframes drift { from { transform: translate(-15%, -15%); } to { transform: translate(25%, 35%); } }
 
-        /* 頁首標題區 */
+        /* 頁首：電腦版 */
         .hero-header { height: 35vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
         .main-title { font-size: clamp(2.2rem, 8vw, 4rem); font-weight: 900; background: linear-gradient(to bottom, #fff 40%, var(--primary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .sub-title { letter-spacing: 8px; color: var(--primary); font-size: 0.85rem; font-weight: bold; }
@@ -40,26 +40,33 @@
         .video-side { width: 45%; aspect-ratio: 1 / 1; background: #000; overflow: hidden; border-left: 1px solid var(--glass-border); }
         .video-side video { width: 100%; height: 100%; object-fit: cover; }
 
+        /* 按鈕特效 */
         .cta-btn { display: inline-block; background: var(--primary); color: #02080a; text-decoration: none; padding: 18px 45px; border-radius: 50px; font-weight: 900; font-size: 1.1rem; box-shadow: 0 0 20px var(--primary-glow); animation: pulse-glow 2s infinite; text-align: center; }
         @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 15px var(--primary-glow); } 50% { box-shadow: 0 0 35px var(--primary); } }
 
-        /* 照片牆 */
-        .gallery-header { margin-bottom: 40px; text-align: left; padding-left: 15px; border-left: 4px solid var(--primary); }
+        /* 照片牆標題與網格 */
+        .gallery-header { margin-bottom: 60px; text-align: left; padding-left: 15px; border-left: 4px solid var(--primary); }
         .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 100px; width: 100%; }
         .gallery-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; aspect-ratio: 1; transition: 0.4s; position: relative; }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; display: block; }
+        .gallery-item:hover { transform: translateY(-10px) scale(1.03) !important; border-color: var(--primary); box-shadow: 0 15px 30px rgba(0, 210, 190, 0.3); z-index: 10; }
 
         footer { padding: 60px 20px; text-align: center; color: var(--text-dim); font-size: 11px; border-top: 1px solid var(--glass-border); }
 
+        /* --- 📱 手機版穩定佈局 --- */
         @media (max-width: 900px) {
             .hero-header { height: 120px; padding-top: 40px; margin-bottom: 20px; }
             .main-title { font-size: 1.5rem; }
             .sub-title { font-size: 0.65rem; letter-spacing: 4px; }
+            .container { padding: 0 10px 60px; }
             .feature-block { flex-direction: column; border-radius: 20px; }
-            .video-side { width: 100%; aspect-ratio: 16 / 9; }
-            .content-side { padding: 30px 20px; text-align: center; }
-            .cta-btn { width: 100%; }
-            .gallery { grid-template-columns: repeat(2, 1fr); } /* 手機版改兩欄較好閱讀 */
+            .video-side { width: 100%; aspect-ratio: 16 / 9; border-left: none; }
+            .content-side { padding: 30px 20px; text-align: center; background: none; }
+            .feature-title { font-size: 1.5rem; }
+            .cta-btn { width: 100%; padding: 16px; font-size: 1rem; }
+            .gallery-header { margin-bottom: 40px; }
+            .gallery { gap: 6px; padding: 0; grid-template-columns: repeat(3, 1fr); }
+            .gallery-item { border-radius: 6px; transform: none !important; }
         }
     </style>
 </head>
@@ -74,6 +81,7 @@
     </header>
 
     <div class="container">
+        <!-- 核心轉換區 -->
         <section class="feature-block">
             <div class="video-side">
                 <video src="https://public.swag.live/campaigns/vip-offline-event/VIP%20%E5%90%8C%E6%A8%82%E6%9C%83%20(%E7%AB%99%E5%85%A7).mp4" autoplay muted loop playsinline preload="auto"></video>
@@ -81,8 +89,8 @@
             <div class="content-side">
                 <span class="tagline">MEMORABLE MOMENTS</span>
                 <h2 class="feature-title">LV1 即可參與<br>臉紅心跳的刺激互動</h2>
-                <p class="feature-desc">我們打破螢幕的界限，為所有等級的夥伴開啟專屬互動大門！無論你是剛加入的新朋友，還是默默守護的資深粉絲，都有機會在現場與心儀主播面對面。</p>
-                <a href="https://swag.live/settings/vvip" class="cta-btn">立即成為 VIP</a>
+                <p class="feature-desc">我們打破螢幕的界限，為所有等級的夥伴開啟專屬互動大門！有機會在現場與心儀主播面對面，感受最真實的溫度。</p>
+                <a href="https://swag.live/settings/vvip" class="cta-btn" onclick="trackVipActivity('點擊成為VIP')">立即成為 VIP</a>
             </div>
         </section>
 
@@ -91,17 +99,34 @@
         </div>
 
         <div class="gallery" id="photo-gallery">
+            <!-- 修正後的 19 張照片清單 -->
             <div class="gallery-item" data-speed="0.05"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%AD%E5%8D%8812.35.56.png" loading="lazy"></div>
-            <div class="gallery-item" data-speed="0.08"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%8B%E5%8D%881.43.27.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.08"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-29%20%E4%B8%AD%E5%8D%8812.37.53.png" loading="lazy"></div>
             <div class="gallery-item" data-speed="0.04"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.30.png" loading="lazy"></div>
-            </div>
+            <div class="gallery-item" data-speed="0.07"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.39.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.06"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.38.52.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.05"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.04.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.09"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.13.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.04"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.34.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.06"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.43.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.08"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.39.47.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.05"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.06.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.07"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.18.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.04"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.27.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.06"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.36.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.08"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.44.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.05"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.40.56.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.07"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.41.14.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.09"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.09.png" loading="lazy"></div>
+            <div class="gallery-item" data-speed="0.06"><img src="https://public.swag.live/campaigns/vip-offline-event/%E6%88%AA%E5%9C%96%202026-01-30%20%E4%B8%8B%E5%8D%884.42.19.png" loading="lazy"></div>
+        </div>
     </div>
 
     <footer>© 2026 SWAG. 本公司保留最終解釋權</footer>
 
     <script>
-        // 1. VIP 追蹤功能 (Google Form)
-        function trackVipActivity() {
+        // 1. VIP 數據追蹤
+        function trackVipActivity(actionName = "造訪活動頁") {
             const formId = "1FAIpQLSesHoOdtFWwrxuRGysrK9eLhIwz_Bs0A_T45kBzjxKQftR_Gg";
             const entryActionId = "entry.666751855"; 
             const entrySourceId = "entry.2068289123";
@@ -111,19 +136,18 @@
             const userId = urlParams.get('user_id') || "Guest";
             const source = document.referrer || "Direct";
 
-            const googleFormUrl = `https://docs.google.com/forms/d/e/1FAIpQLSesHoOdtFWwrxuRGysrK9eLhIwz_Bs0A_T45kBzjxKQftR_Gg/formResponse?entry.666751855=hi&entry.2068289123=&entry.839486570=${user_id}&submit=Submit` + 
-                                  `${entryActionId}=造訪活動頁&` +
+            const googleFormUrl = `https://docs.google.com/forms/d/e/${formId}/formResponse?` + 
+                                  `${entryActionId}=${encodeURIComponent(actionName)}&` +
                                   `${entrySourceId}=${encodeURIComponent(source)}&` +
                                   `${entryUserIdId}=${encodeURIComponent(userId)}&` +
                                   `submit=Submit`;
 
-            // 使用 fetch 發送
             fetch(googleFormUrl, { method: "POST", mode: "no-cors", keepalive: true });
-            console.log("VIP Tracking active:", userId);
+            console.log(`Tracking: [${actionName}] for [${userId}]`);
         }
 
-        // 2. 頁面視覺效果 (視差滾動)
-        function handleScrollEffects() {
+        // 2. 捲動位移腳本
+        window.addEventListener('scroll', () => {
             if (window.innerWidth > 900) {
                 const scrolled = window.pageYOffset;
                 const mainTitle = document.querySelector('.main-title');
@@ -138,12 +162,11 @@
                     }
                 });
             }
-        }
+        });
 
-        // 執行所有初始化
+        // 3. 初始載入
         window.addEventListener('load', () => {
-            trackVipActivity();
-            window.addEventListener('scroll', handleScrollEffects);
+            trackVipActivity("進入活動頁");
         });
     </script>
 </body>
