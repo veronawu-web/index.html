@@ -138,21 +138,69 @@
     </style>
 </head>
 <script>
-  // 網頁一載入，自動發送數據到 Google 試算表
-  window.onload = function() {
-    var googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSesHoOdtFWwrxuRGysrK9eLhIwz_Bs0A_T45kBzjxKQftR_Gg/formResponse?usp=pp_url&entry.666751855=%E9%BB%9E%E6%93%8A&submit=Submit";
-    
-    // 使用 fetch 發送請求，no-cors 模式確保不會報錯
-    fetch(googleFormUrl, {
-      method: "POST",
-      mode: "no-cors"
-    }).then(function() {
-      console.log("數據已成功發送至 Google 試算表");
-    }).catch(function(error) {
-      console.error("發送失敗：", error);
-    });
-  };
-</script>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活動頁面 - VIP 專屬</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f4f4; }
+        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        h1 { color: #333; }
+        p { color: #666; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>歡迎蒞臨 VIP 活動</h1>
+        <p>頁面載入中，請稍候...</p>
+    </div>
+
+    <script>
+        /**
+         * 自動追蹤腳本：將訪客資訊送往 Google 表單
+         */
+        function trackVipActivity() {
+            // 1. 設定你的 Google 表單 ID 與 欄位編號
+            const formId = "1FAIpQLSesHoOdtFWwrxuRGysrK9eLhIwz_Bs0A_T45kBzjxKQftR_Gg";
+            const entryActionId = "entry.666751855"; // 點擊/行為
+            const entrySourceId = "entry.2068289123"; // 來源
+            const entryUserIdId = "entry.839486570"; // User ID
+
+            // 2. 取得動態數據
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('user_id') || "Guest"; // 從網址 ?user_id= 抓取
+            const source = document.referrer || "Direct"; // 抓取是從哪個網頁跳轉過來的
+
+            // 3. 組合自動提交的 URL
+            // 注意：這裡加入了 &submit=Submit 確保自動送出
+            const googleFormUrl = `https://docs.google.com/forms/d/e/${formId}/formResponse?` + 
+                                  `${entryActionId}=造訪活動頁&` +
+                                  `${entrySourceId}=${encodeURIComponent(source)}&` +
+                                  `${entryUserIdId}=${encodeURIComponent(userId)}&` +
+                                  `submit=Submit`;
+
+            // 4. 使用 fetch 發送請求 (no-cors 模式)
+            fetch(googleFormUrl, {
+                method: "POST",
+                mode: "no-cors",
+                keepalive: true
+            })
+            .then(() => {
+                console.log("Track Success: ", { userId, source });
+            })
+            .catch((err) => {
+                console.error("Track Error: ", err);
+            });
+        }
+
+        // 當網頁完全載入後啟動追蹤
+        window.addEventListener('load', trackVipActivity);
+    </script>
+</body>
+</html>
 <body>
 
     <div class="ocean-bg"></div>
