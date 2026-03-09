@@ -140,62 +140,68 @@
 
     <footer>© 2026 SWAG. 本公司保留最終解釋權</footer>
 
-    <script>
-        function updateCtaLink() {
-            // 抓取當前網址的所有參數
-            const urlParams = new URLSearchParams(window.location.search);
-            let userId = urlParams.get('user_id');
-            const ctaBtn = document.getElementById('upcoming-event-link');
+<script>
+    function updateCtaLink() {
+        // 1. 取得當前網址與參數
+        const currentUrl = window.location.href;
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // 2. 試著從各種路徑抓取 ID
+        // 有些系統會把參數塞在 ? 之後，有些會在 # 之後
+        let userId = urlParams.get('user_id') || urlParams.get('USER_ID') || urlParams.get('id');
+        
+        // 3. 定義無效的佔位符 (如果系統沒替換成功，抓到的會是這些字)
+        const invalidTags = [
+            "{USER_ID}", "{user_id}", 
+            "{{USER_ID}}", "{{user_id}}", 
+            "{{$json['$properties.id']}}", 
+            "%7BUSER_ID%7D", // 這是 {USER_ID} 的編碼版
+            "null", "undefined", ""
+        ];
 
-            if (!ctaBtn) return;
+        const ctaBtn = document.getElementById('upcoming-event-link');
+        if (!ctaBtn) return;
 
-            // --- 核心判斷邏輯 ---
-            // 如果 userId 是空的，或是標籤未替換字串 "{USER_ID}"，或是 "{{USER_ID}}"
-            const isInvalidId = !userId || userId === "{USER_ID}" || userId === "{{USER_ID}}" || userId === "%7BUSER_ID%7D";
+        // 4. 判斷邏輯
+        const isInvalid = !userId || invalidTags.some(tag => userId.includes(tag));
 
-            if (isInvalidId) {
-                ctaBtn.innerText = "請登入";
-                ctaBtn.href = "https://swag.live/login";
-                console.log("偵測狀態：未登入或系統未替換 ID");
-            } else {
-                // 有效 ID 存在，組合長網址
-                const iframeBase = "https://swag.live/iframe/?";
-                const params = {
-                    sd: "VIP Lv.1 ⬆️即可參加活動與主播心跳加速的互動👉🏻點我查看活動詳情",
-                    si: "https://public.swag.live/notifications/custom/lemon/speaker.png",
-                    st: "3/29 VIP 同樂會報名開跑🔥線下見女神💗",
-                    title: "iframe_viewer_header",
-                    type: "link"
-                };
+        if (isInvalid) {
+            // 狀態 A：沒抓到有效 ID -> 顯示請登入
+            ctaBtn.innerText = "請登入";
+            ctaBtn.href = "https://swag.live/login";
+            console.log("無法辨識用戶：抓到的 ID 為", userId);
+        } else {
+            // 狀態 B：成功抓到 ID (例如 693d12...)
+            const iframeBase = "https://swag.live/iframe/?";
+            const params = {
+                sd: "VIP Lv.1 ⬆️即可參加活動與主播心跳加速的互動👉🏻點我查看活動詳情",
+                si: "https://public.swag.live/notifications/custom/lemon/speaker.png",
+                st: "3/29 VIP 同樂會報名開跑🔥線下見女神💗",
+                title: "iframe_viewer_header",
+                type: "link"
+            };
 
-                // 組合內部報名頁面網址
-                const targetSource = `https://veronawu-web.github.io/test.html/?user_id=${userId}`;
-                
-                let queryParts = [];
-                for (let key in params) {
-                    queryParts.push(`${key}=${encodeURIComponent(params[key])}`);
-                }
-                queryParts.push(`source=${encodeURIComponent(targetSource)}`);
-
-                ctaBtn.href = iframeBase + queryParts.join('&');
-                ctaBtn.innerText = "查看本月活動";
-                console.log("偵測狀態：登入成功，ID 為 " + userId);
+            // 確保目標 source 網址乾淨
+            const targetSource = `https://veronawu-web.github.io/test.html/?user_id=${userId}`;
+            
+            let queryParts = [];
+            for (let key in params) {
+                queryParts.push(`${key}=${encodeURIComponent(params[key])}`);
             }
+            queryParts.push(`source=${encodeURIComponent(targetSource)}`);
+
+            ctaBtn.href = iframeBase + queryParts.join('&');
+            ctaBtn.innerText = "查看本月活動";
+            console.log("辨識成功，UserID:", userId);
         }
+    }
 
-        // 頁面載入執行
+    // 確保頁面載入完成後執行
+    if (document.readyState === 'complete') {
+        updateCtaLink();
+    } else {
         window.addEventListener('load', updateCtaLink);
-
-        // 視差效果 (只在電腦版)
-        window.addEventListener('scroll', () => {
-            if (window.innerWidth > 900) {
-                const scrolled = window.pageYOffset;
-                document.querySelectorAll('.gallery-item').forEach(item => {
-                    const speed = parseFloat(item.getAttribute('data-speed'));
-                    item.style.transform = `translateY(${-(scrolled * speed)}px)`;
-                });
-            }
-        });
-    </script>
+    }
+</script>
 </body>
 </html>
