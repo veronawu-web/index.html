@@ -41,37 +41,105 @@
         .video-side { width: 45%; aspect-ratio: 1 / 1; background: #000; overflow: hidden; border-left: 1px solid var(--glass-border); }
         .video-side video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* 按鈕樣式 */
+        /* 立即成為 VIP 按鈕 */
         .cta-btn { display: inline-block; background: var(--primary); color: #02080a; text-decoration: none; padding: 18px 45px; border-radius: 50px; font-weight: 900; font-size: 1.1rem; box-shadow: 0 0 20px var(--primary-glow); animation: pulse-glow 2s infinite; text-align: center; }
         @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 15px var(--primary-glow); } 50% { box-shadow: 0 0 35px var(--primary); } }
 
-        .upcoming-card { display: flex; background: #000; border: 1px solid var(--glass-border); border-radius: 24px; margin-bottom: 80px; overflow: hidden; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        .upcoming-card::after { content: ""; position: absolute; top: -100%; left: -100%; width: 50%; height: 300%; background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent); transform: rotate(25deg); animation: sweep 4s infinite; pointer-events: none; z-index: 5; }
+        /* --- 本月活動區塊 (黑金邀請函方案) --- */
+        .upcoming-card {
+            display: flex;
+            background: #000; 
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            margin-bottom: 80px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .upcoming-card::after {
+            content: "";
+            position: absolute;
+            top: -100%; left: -100%;
+            width: 50%; height: 300%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(25deg);
+            animation: sweep 4s infinite;
+            pointer-events: none;
+            z-index: 5;
+        }
         @keyframes sweep { 0% { left: -100%; } 30%, 100% { left: 200%; } }
 
-        .upcoming-visual { width: 40%; background: #000; padding: 40px; display: flex; align-items: center; justify-content: center; border-right: 1px solid rgba(255,255,255,0.1); }
-        .upcoming-visual img { max-width: 90%; max-height: 220px; width: auto; height: auto; object-fit: contain; }
-        .upcoming-info { flex: 1; background: var(--gold-gradient); padding: 50px; text-align: left; display: flex; flex-direction: column; justify-content: center; }
+        /* 左側圖片：不裁切保護區 */
+        .upcoming-visual {
+            width: 40%;
+            background: #000;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+        .upcoming-visual img {
+            max-width: 90%;
+            max-height: 220px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* 右側文案：金色底 */
+        .upcoming-info {
+            flex: 1;
+            background: var(--gold-gradient);
+            padding: 50px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
         .upcoming-title { font-size: 1.6rem; font-weight: 900; color: #1a1100; margin-bottom: 12px; }
         .upcoming-text { color: #2d2415; font-size: 0.95rem; margin-bottom: 30px; line-height: 1.6; font-weight: 600; }
-        .upcoming-btn { align-self: flex-start; background: #1a1100; color: #fff; text-decoration: none; padding: 12px 35px; border-radius: 12px; font-weight: 800; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .upcoming-btn {
+            align-self: flex-start;
+            background: #1a1100;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 35px;
+            border-radius: 12px;
+            font-weight: 800;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
         .upcoming-btn:hover { background: #000; transform: translateY(-2px); }
 
+        /* 照片牆標題與網格 */
         .gallery-header { margin-bottom: 60px; text-align: left; padding-left: 15px; border-left: 4px solid var(--primary); }
         .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 100px; width: 100%; }
         .gallery-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; aspect-ratio: 1; transition: 0.4s; position: relative; }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; display: block; }
-        
+        .gallery-item:hover { transform: translateY(-10px) scale(1.03) !important; border-color: var(--primary); box-shadow: 0 15px 30px rgba(0, 210, 190, 0.3); z-index: 10; }
+
         footer { padding: 60px 20px; text-align: center; color: var(--text-dim); font-size: 11px; border-top: 1px solid var(--glass-border); }
 
+        /* 手機版穩定佈局 */
         @media (max-width: 900px) {
             .hero-header { height: 120px; padding-top: 40px; margin-bottom: 20px; }
             .main-title { font-size: 1.5rem; }
+            .sub-title { font-size: 0.65rem; letter-spacing: 4px; }
+            .feature-block { flex-direction: column; border-radius: 20px; }
+            .video-side { width: 100%; aspect-ratio: 16 / 9; border-left: none; }
             .content-side { padding: 30px 20px; text-align: center; }
+            .cta-btn { width: 100%; }
+
             .upcoming-card { flex-direction: column; }
-            .upcoming-visual { width: 100%; height: 180px; }
+            .upcoming-visual { width: 100%; height: 180px; padding: 25px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .upcoming-visual img { max-height: 130px; }
             .upcoming-info { padding: 35px 20px; text-align: center; }
-            .upcoming-btn { align-self: center; width: 100%; text-align: center; }
+            .upcoming-btn { align-self: center; width: 100%; }
+
+            .gallery { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+            .gallery-item { border-radius: 6px; transform: none !important; }
         }
     </style>
 </head>
@@ -95,11 +163,11 @@
                 <span class="tagline">MEMORABLE MOMENTS</span>
                 <h2 class="feature-title">LV1 即可參與<br>臉紅心跳的刺激互動</h2>
                 <p class="feature-desc">我們打破螢幕的界限，為所有等級的夥伴開啟專屬互動大門！有機會在現場與心儀主播面對面，感受最真實的溫度。</p>
-                <a href="https://swag.live/settings/vvip" class="cta-btn">立即成為 VIP</a>
+                <a href="https://swag.live/settings/vvip" class="cta-btn" onclick="trackVipActivity('點擊成為VIP')">立即成為 VIP</a>
             </div>
         </section>
 
-        <!-- 黑金本月活動區塊 -->
+        <!-- 黑金本月活動區塊 (動態串接連結) -->
         <div class="upcoming-card">
             <div class="upcoming-visual">
                 <img src="https://public.swag.live/campaigns/vip-offline-event/%E8%B3%87%E7%94%A2%201.png" alt="VIP主視覺">
@@ -107,7 +175,8 @@
             <div class="upcoming-info">
                 <h2 class="upcoming-title">想參與更多心跳加速的互動嗎？</h2>
                 <p class="upcoming-text">點擊下方按鈕，隨時掌握本月最新活動時程與報名資訊。</p>
-                <a href="#" id="upcoming-event-link" class="upcoming-btn">檢查狀態中...</a>
+                <!-- 加了 ID 以便 JS 抓取替換 -->
+                <a href="#" id="upcoming-event-link" class="upcoming-btn" onclick="trackVipActivity('點擊近期活動')">查看本月活動</a>
             </div>
         </div>
 
@@ -140,58 +209,75 @@
 
     <footer>© 2026 SWAG. 本公司保留最終解釋權</footer>
 
-<script>
-   function updateCtaLink() {
+    <script>
+        /**
+         * 動態更新近期活動按鈕的連結
+         * 將網址中的 user_id 帶入 iframe 參數中
+         */
+        function updateCtaLink() {
             const urlParams = new URLSearchParams(window.location.search);
-            let userId = urlParams.get('user_id'); 
+            const userId = urlParams.get('user_id');
             const ctaBtn = document.getElementById('upcoming-event-link');
 
             if (!ctaBtn) return;
 
-            // --- 嚴格檢查 ID 是否有效 ---
-            // 排除以下情況：1.沒抓到 2.抓到的是系統標籤文字 3.空字串
-            const isInvalid = !userId || 
-                               userId === "{USER_ID}" || 
-                               userId === "{{USER_ID}}" || 
-                               userId === "%7BUSER_ID%7D" ||
-                               userId.trim() === "";
-
-            if (isInvalid) {
-                // 如果無效，顯示請登入
-                ctaBtn.innerText = "請登入";
-                ctaBtn.href = "https://swag.live/login";
-                console.log("UserID 無效，顯示請登入狀態");
+            // 你的基礎長網址
+            let baseUrl = "https://swag.live/iframe/?sd=VIP+Lv.1+%E2%AC%86%EF%B8%8F%E5%8D%B3%E5%8F%AF%E5%8F%83%E5%8A%A0%E6%B4%BB%E5%8B%95%E8%88%87%E4%B8%BB%E6%92%AD%E5%BF%83%E8%B7%B3%E5%8A%A0%E9%80%9F%E7%9A%84%E4%BA%92%E5%8B%95%F0%9F%91%89%F0%9F%8F%BB%E9%BB%9E%E6%88%91%E6%9F%A5%E7%9C%8B%E6%B4%BB%E5%8B%95%E8%A9%B3%E6%83%85&si=https://public.swag.live/notifications/custom/lemon/speaker.png&st=3/29+VIP+%E5%90%8C%E6%A8%82%E6%9C%83%E5%A0%B1%E5%90%8D%E9%96%8B%E8%B7%91%F0%9F%94%A5%E7%B7%9A%E4%B8%8B%E8%A6%8B%E5%A5%B3%E7%A5%9E%F0%9F%92%97&title=iframe_viewer_header&type=link&source=";
+            
+            // 目標跳轉的內部頁面（需先進行 URL 編碼）
+            let internalSource = "https://veronawu-web.github.io/test.html/";
+            
+            if (userId) {
+                // 如果有 userId，組合出完整 source 並編碼
+                let fullSource = internalSource + "?user_id=" + userId;
+                ctaBtn.href = baseUrl + encodeURIComponent(fullSource);
             } else {
-                // 如果有效，執行原本的長網址串接
-                const iframeBase = "https://swag.live/iframe/?";
-                const params = {
-                    sd: "VIP Lv.1 ⬆️即可參加活動與主播心跳加速的互動👉🏻點我查看活動詳情",
-                    si: "https://public.swag.live/notifications/custom/lemon/speaker.png",
-                    st: "3/29 VIP 同樂會報名開跑🔥線下見女神💗",
-                    title: "iframe_viewer_header",
-                    type: "link"
-                };
-
-                const targetSource = `https://veronawu-web.github.io/test.html/?user_id=${userId}`;
-                
-                let queryParts = [];
-                for (let key in params) {
-                    queryParts.push(`${key}=${encodeURIComponent(params[key])}`);
-                }
-                queryParts.push(`source=${encodeURIComponent(targetSource)}`);
-
-                ctaBtn.href = iframeBase + queryParts.join('&');
-                ctaBtn.innerText = "查看本月活動";
-                console.log("UserID 有效: " + userId + "，已更新連結");
+                // 如果沒有 userId，就只帶不含參數的 source
+                ctaBtn.href = baseUrl + encodeURIComponent(internalSource);
             }
         }
 
-    // 確保頁面載入完成後執行
-    if (document.readyState === 'complete') {
-        updateCtaLink();
-    } else {
-        window.addEventListener('load', updateCtaLink);
-    }
-</script>
+        // 核心數據追蹤
+        function trackVipActivity(actionName = "造訪活動頁") {
+            const formId = "1FAIpQLSesHoOdtFWwrxuRGysrK9eLhIwz_Bs0A_T45kBzjxKQftR_Gg";
+            const entryActionId = "entry.666751855"; 
+            const entrySourceId = "entry.2068289123";
+            const entryUserIdId = "entry.839486570";
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('user_id') || "Guest";
+            const source = document.referrer || "Direct";
+
+            const googleFormUrl = `https://docs.google.com/forms/d/e/${formId}/formResponse?` + 
+                                  `${entryActionId}=${encodeURIComponent(actionName)}&` +
+                                  `${entrySourceId}=${encodeURIComponent(source)}&` +
+                                  `${entryUserIdId}=${encodeURIComponent(userId)}&` +
+                                  `submit=Submit`;
+
+            fetch(googleFormUrl, { method: "POST", mode: "no-cors", keepalive: true });
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth > 900) {
+                const scrolled = window.pageYOffset;
+                const mainTitle = document.querySelector('.main-title');
+                if (mainTitle) mainTitle.style.transform = `translateY(${scrolled * 0.3}px)`;
+
+                document.querySelectorAll('.gallery-item').forEach(item => {
+                    const speed = parseFloat(item.getAttribute('data-speed'));
+                    const yPos = -(scrolled * speed);
+                    if (!item.matches(':hover')) {
+                        item.style.transform = `translateY(${yPos}px)`;
+                    }
+                });
+            }
+        });
+
+        // 頁面載入執行
+        window.addEventListener('load', () => { 
+            updateCtaLink(); // 執行連結替換
+            trackVipActivity("進入活動頁"); 
+        });
+    </script>
 </body>
 </html>
